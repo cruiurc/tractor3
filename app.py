@@ -4,6 +4,16 @@ from dash import html, dcc, callback
 from dash.dependencies import Input, Output, State
 from pages import create_page, project_page
 import callbacks
+from model import project
+
+
+project_links = [
+    html.Li(
+        html.A(project.name, href=f"/project?id={project.number}")
+    )
+    for project in project.select()
+]
+
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -43,14 +53,7 @@ navbar = dbc.Navbar(
 offcanvas = dbc.Offcanvas(
     children=[
         html.Ul(
-            [
-                html.Li(
-                    html.A("ID 1", href="/project?id=id1"),
-                ),
-                html.Li(
-                    html.A("ID 2", href="/project?id=id2"),
-                ),
-            ],
+            project_links,
             className="nav flex-column",
         ),
     ],
