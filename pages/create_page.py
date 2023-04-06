@@ -3,18 +3,19 @@ import dash_bootstrap_components as dbc
 from dash import html, dcc
 from dash.dependencies import Input, Output, State
 import callbacks
+from model import schedule, issue, timesheet, finance, submit, clear, display
 
 
 radios_proj_tag = html.Div(
     [
         dbc.Label("项目类型", width=1),
             dbc.RadioItems(
-                id="project-tag-radio",
+                id="radio-project-tag",
                 options=[
-                    {"label": "产品开发", "value": 1},
-                    {"label": "产品预研", "value": 2},
-                    {"label": "技术预研", "value": 3},
-                    {"label": "工程", "value": 4},
+                    {"label": "产品开发", "value": "产品开发"},
+                    {"label": "产品预研", "value": "产品预研"},
+                    {"label": "技术预研", "value": "技术预研"},
+                    {"label": "工程", "value": "工程"},
 
                 ],
                 inline=True
@@ -25,24 +26,21 @@ radios_proj_tag = html.Div(
 input_proj_num = html.Div(
     [
         dbc.Label("项目编号"),
-        dbc.Input(placeholder="", type="text"),
-        dbc.FormText("输入项目编号"),
+        dbc.Input(placeholder="", type="text", id="project-num",),
     ]
 )
 
 input_proj_name = html.Div(
     [
         dbc.Label("项目名称"),
-        dbc.Input(placeholder="", type="text"),
-        dbc.FormText("输入项目名称"),
+        dbc.Input(placeholder="", type="text", id="project-name"),
     ]
 )
 
 input_proj_info = html.Div(
     [
         dbc.Label("目标描述"),
-        dbc.Textarea(size="lg", placeholder=""),
-        dbc.FormText("从范围、时间、成本和用户满意等方面陈述项目目标"),
+        dbc.Textarea(placeholder="从范围、时间、成本和用户满意等方面陈述项目目标", id="project-info"),
     ]
 )
 
@@ -68,9 +66,11 @@ modal_confirm_create_proj = html.Div(
     ]
 )
 
+create_success_info = dbc.Alert("创建项目成功！", id='create-success-info', dismissable=True, duration=5000, is_open=False)
+
 def layout():
     return html.Div([
-        radios_proj_tag, html.Br(), input_proj_num, html.Br(), input_proj_name, html.Br(), input_proj_info, html.Br(), modal_confirm_create_proj 
+        radios_proj_tag, html.Br(), input_proj_num, html.Br(), input_proj_name, html.Br(), input_proj_info, html.Br(), modal_confirm_create_proj, create_success_info 
     ])
 
 

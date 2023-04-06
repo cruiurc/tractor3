@@ -2,7 +2,7 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, callback
 from dash.dependencies import Input, Output, State
-from pages import project, create
+from pages import create_page, project_page
 import callbacks
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
