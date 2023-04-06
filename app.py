@@ -7,12 +7,7 @@ import callbacks
 from model import project
 
 
-project_links = [
-    html.Li(
-        html.A(project.name, href=f"/project?id={project.number}")
-    )
-    for project in project.select()
-]
+
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -53,7 +48,7 @@ navbar = dbc.Navbar(
 offcanvas = dbc.Offcanvas(
     children=[
         html.Ul(
-            project_links,
+            html.Div(id='project-links'),
             className="nav flex-column",
         ),
     ],

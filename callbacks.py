@@ -9,7 +9,6 @@ from model import project, schedule, issue, timesheet, finance, submit, clear, d
 from datetime import datetime, date, timedelta
 
 
-
 @callback(
     Output("my-offcanvas", "is_open"),
     [Input("projects-link", "n_clicks")],
@@ -19,6 +18,24 @@ def toggle_offcanvas(n, is_open):
     if n:
         return not is_open
     return is_open
+
+
+@callback(
+    Output("project-links", "children"),
+    Input("my-offcanvas", "is_open")
+)
+def refresh_proj(open):
+    if open:
+        project_links = [
+            html.Li(
+                html.A(i.name, href=f"/project?id={i.number}")
+            )
+            for i in project.select()
+        ]
+        return project_links
+    else:
+        return None
+
 
 @callback(
     Output('project-content', 'children'),
