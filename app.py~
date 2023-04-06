@@ -1,0 +1,42 @@
+import dash_bootstrap_components as dbc
+import dash
+from dash import html
+
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+navbar = dbc.Navbar(
+    children=[
+        dbc.NavItem(dbc.NavLink("Home", href="#")),
+        dbc.NavItem(dbc.NavLink("Page 1", href="#")),
+        dbc.NavItem(dbc.NavLink("Page 2", href="#")),
+        dbc.NavItem(dbc.Button("My Button", color="primary", id="my-button")),
+    ],
+#    brand="MyApp",
+    color="dark",
+    dark=True,
+)
+
+offcanvas = dbc.Offcanvas(
+    children=[
+#        dbc.OffcanvasHeader("Offcanvas Header"),
+#        dbc.OffcanvasBody("Offcanvas Body"),
+    ],
+    id="my-offcanvas",
+    title="My Offcanvas",
+)
+
+app.layout = html.Div([
+    navbar,
+    offcanvas,
+    ...
+])
+
+@app.callback(
+    dash.dependencies.Output("my-offcanvas", "is_open"),
+    [dash.dependencies.Input("my-button", "n_clicks")],
+    [dash.dependencies.State("my-offcanvas", "is_open")],
+)
+def toggle_offcanvas(n, is_open):
+    if n:
+        return not is_open
+    return is_open
